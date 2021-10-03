@@ -1,0 +1,238 @@
+#include<iostream> 
+#include<cstdlib>
+using namespace std;
+struct node{                       
+ int data;                            
+ struct node *next;                   
+};                                  
+struct node* head = NULL;      
+
+void instf(int k){                   
+ struct node* p1;                         
+ p1 = (struct node*)malloc(sizeof(struct node));            
+p1->data= k; 
+                        
+if(head==NULL)
+ head=p1;
+ 
+ else
+ {
+ p1->next=head;
+ head = p1;     
+ }
+}
+
+void instp(int a, int k){
+    int m;
+ struct node* p1;                         
+ p1 = (struct node*)malloc(sizeof(struct node)); 
+p1->data= k;                         
+ p1->next = NULL;
+ 
+ struct node* temp;
+ 
+ temp = head;
+ 
+ if(temp==NULL)
+ {
+     cout<<"Since there is no elements in the list do you want to store element at first position?\nEnter 1 for yes and 0 for no.\n";
+     cin>>m;
+     if(m==1)
+     {
+     head=p1;
+     return;
+     }
+     else
+     {
+         cout<<"Element wasn't added.\n";
+     }
+ }
+
+ for(int i=1; i<a-1; i++)
+ {
+     temp=temp->next;
+     if(temp->next==NULL)
+     {
+       cout<<"Invalid input\n";
+       cout<<"Element wasn't added.\n";
+       return;
+     }
+     
+ }
+ if(temp==head && a==1)
+ {
+     instf(k);
+ }
+ else
+ {
+ p1->next=temp->next;
+ temp->next = p1;
+ }
+}
+
+
+void inste(int k){                   
+ struct node* p1;                         
+ p1 = (struct node*)malloc(sizeof(struct node)); 
+p1->data= k;                         
+ p1->next = NULL;
+ 
+ struct node* temp;
+ 
+ temp = head;
+ if(temp==NULL)
+ {
+     head=p1;
+ }
+ else
+ {
+ while(temp->next!=NULL)
+ temp = temp->next;
+ 
+ temp->next = p1;
+ }
+}
+
+void delf()
+{
+    struct node* p1;
+   if(head==NULL)
+   {
+       cout<<"Sorry can't delete";
+   }
+ else if(head->next==NULL)
+   {
+       p1=head;
+       head=NULL;
+       free(p1);
+   }
+   else
+   {
+    p1 = head;
+    head = head ->next;
+    free(p1);
+   }
+}
+
+void delp(int a){
+ struct node* p1;                         
+ struct node* temp;
+ struct node* temp1;
+ 
+ temp = head;
+ p1=head;
+ 
+ if(temp==NULL)
+ {
+     cout<<"There is no elements in the list.\n";
+return;
+ }
+
+ for(int i=1; i<a-1; i++)
+ {
+
+     temp=temp->next;
+     if(temp->next==NULL&& i!=a-1)
+     {
+       cout<<"Invalid input\n";
+       cout<<"Nothing was removed.\n";
+       return;
+     }
+ }
+if(temp==head && a==1)
+ {
+     head=head->next;
+     free(temp);
+ }
+ else
+ {
+ p1=temp;
+ temp=temp->next;
+ temp1=temp;
+ temp=temp->next;
+ p1->next=temp;
+ free(temp1);
+}
+}
+void dele()
+{
+    struct node* temp;
+    struct node* p1;
+    temp = head;
+     if(head==NULL)
+   {
+       cout<<"Sorry can't delete";
+   }
+ else if(head->next==NULL)
+   {
+       p1=head;
+       head=NULL;
+       free(p1);
+   }
+   else
+   {
+    while(temp->next->next!=NULL)
+    {
+    temp = temp->next;
+    }
+    p1 = temp->next;
+    temp->next = NULL;
+    free(p1);
+   }
+}
+
+void disp(){                        
+ struct node* p1;                   
+ p1 = head;                       
+ if(head==NULL){                  
+ cout<<"Linked List is Empty";            
+ }                                  
+ else{                               
+ cout<<"Elements of Linked List are: ";        
+ while(p1 != NULL){                 
+ cout<<p1->data<<" ";                  
+ p1= p1->next;                         
+
+ }                                  
+ }                                  
+}                                   
+
+int main(){
+ int flag=1, ch, k, a;
+ while(flag==1){                        
+ cout<<"\nEner the Choice:\t1. Insert at Front\t2. Insert at Position\t 3. Insert at End\t4. Delete from Front\t5. Delete from position \t6. Delete from End\t7. Display \t8. Quit \t"; 
+ cin>>ch;                              
+ switch(ch){                            
+ case 1: cout<<"\nEnter the element : "; 
+ cin>>k;                                  
+ instf(k);
+ break;
+ case 2:cout<<"\nEnter the position and the element which you want to add: ";
+ cin>>a;
+ cin>>k;
+ instp(a,k);
+ break;
+ case 3: cout<<"\nEnter the element: "; 
+ cin>>k;                                  
+ inste(k);
+ break; 
+ case 4:
+ delf();
+ break;
+ case 5:cout<<"\nEnter the position from where you want to delete: ";
+ cin>>a;
+ delp(a);
+ break;
+ case 6:
+ dele();
+ break;
+ case 7: disp();                        
+ break;                                 
+ case 8: flag = 0;                      
+ break;                                 
+ default:                               
+ cout<<"Invalid Choice \n ";            
+ }                                      
+ }                                      
+ return 0;                              
+}

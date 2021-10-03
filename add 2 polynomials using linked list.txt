@@ -1,0 +1,89 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+struct node *phead = NULL,*qhead = NULL,*sumhead = NULL;
+
+void add(int,struct node**);
+void sum();
+void disp(int,struct node**);
+
+int main(){
+    int n,x;
+    printf("\nEnter highest degree of polynomial : ");
+    scanf("%d",&n);
+    if(n<=0){
+        printf("\nIt should be greater than zero\n");
+        return -1;
+    }
+    printf("\nFor first polynomial,\n");
+    for(int i=n;i>=0;i--){
+        printf("\nEnter coefficient of x^%d : ",i);
+        scanf("%d",&x);
+        add(x,&phead);
+    }
+    printf("\nFor second polynomial,\n");
+    for(int i=n;i>=0;i--){
+        printf("\nEnter coefficient of x^%d : ",i);
+        scanf("%d",&x);
+        add(x,&qhead);
+    }
+    printf("\n\n");
+    printf("\nFirst polynomial eqn is : ");
+    disp(n,&phead);
+    printf("\nSecond polynomial eqn is : ");
+    disp(n,&qhead);
+    printf("\nSum of first and second eqns is : ");
+    sum();
+    disp(n,&sumhead);
+
+    return 0;
+}
+
+void add(int val, struct node **head){
+    struct node *temp,*ptr;
+    temp = (struct node*)malloc(sizeof(struct node));
+    if(temp == NULL){
+        printf("\nMemory full\n");
+        return;
+    }
+    temp->data = val;
+    temp->next = NULL;
+    if(*head == NULL){
+        *head = temp;
+    }else{
+        ptr = *head;
+        while(ptr->next != NULL){
+            ptr = ptr->next;
+        }
+        ptr->next = temp;
+    }
+}
+
+void sum(){
+    struct node *p1,*p2;
+    p1 = phead;
+    p2 = qhead;
+    while(p1 != NULL && p2 != NULL){
+        int x = p1->data + p2->data;
+        add(x,&sumhead);
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+}
+
+void disp(int n,struct node **head){
+    struct node *ptr;
+    ptr = *head;
+    while(ptr->next != NULL){
+        printf("(%d)x^%d + ",ptr->data,n);
+        ptr = ptr->next;
+        n--;
+    }
+    printf("(%d)",ptr->data);
+    printf("\n\n");
+}

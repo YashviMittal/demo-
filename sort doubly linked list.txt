@@ -1,0 +1,122 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    struct node *prev;
+    int n;
+    struct node *next;
+}*h,*temp,*temp1,*temp2,*temp3;
+
+void insert1();
+void sort();
+int count = 0;
+
+void main()
+{
+    int ch;
+
+    h = NULL;
+    temp = temp1 = NULL;
+
+    printf("\n 1. Insert an element");
+    printf("\n 2. Sort and display the list");
+    printf("\n 3. Exit");
+
+    while (1)
+    {
+        printf("\n Enter choice : ");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+        case 1:
+            insert1();
+            break;
+        case 2:
+            sort();
+            break;
+        case 3:
+            exit(0);
+        default:
+            printf("\n Wrong choice menu");
+        }
+    }
+}
+
+/* TO create an empty node */
+void create()
+{
+    int data;
+
+    temp =(struct node *)malloc(1*sizeof(struct node));
+    temp->prev = NULL;
+    temp->next = NULL;
+    printf("\n Enter value to node : ");
+    scanf("%d", &data);
+    temp->n = data;
+    count++;
+}
+
+/*  TO insert */
+void insert1()
+{
+    if (h == NULL)
+    {
+        create();
+        h = temp;
+        temp1 = h;
+    }
+    else
+    {
+        create();
+        temp->next = h;
+        h->prev = temp;
+        h = temp;
+    }
+}
+
+
+/* To sort the linked list */
+void sort()
+{
+    int i, j, x;
+
+    temp2 = h;
+    temp3 = h;
+
+    if (temp2 == NULL)
+    {
+        printf("\n List empty to sort");
+        return;
+    }
+
+    for (temp2 = h; temp2 != NULL; temp2 = temp2->next)
+    {
+        for (temp3 = temp2->next; temp3 != NULL; temp3 = temp3->next)
+        {
+            if (temp2->n > temp3->n)
+            {
+                x = temp2->n;
+                temp2->n = temp3->n;
+                temp3->n = x;
+            }
+        }
+    }
+     {
+    temp2 = h;
+
+    if (temp2 == NULL)
+    {
+        printf("List empty to display \n");
+        return;
+    }
+    printf("\n Linked list elements from begining : ");
+
+    while (temp2->next != NULL)
+    {
+        printf(" %d ", temp2->n);
+        temp2 = temp2->next;
+    }
+    printf(" %d ", temp2->n);
+   }
+}

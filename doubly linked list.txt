@@ -1,0 +1,393 @@
+#include<iostream> 
+#include<cstdlib>
+using namespace std;
+struct node{                       
+ int data;  
+ struct node *prev; //
+ struct node *next;                   
+};                                  
+struct node* head = NULL;      
+
+void instf(int k){                   
+ struct node* p1;                         
+ p1 = (struct node*)malloc(sizeof(struct node));   
+ p1->prev=NULL; //
+p1->data= k;                         
+ 
+ if(head==NULL)
+ head=p1;
+ 
+ else
+ {
+     p1->next=head;
+ head->prev=p1;
+ head = p1;     
+ }
+}
+
+void inste(int k){                   
+ struct node* p1;                         
+ p1 = (struct node*)malloc(sizeof(struct node)); 
+p1->data= k;                         
+ p1->next = NULL;
+ 
+ struct node* temp;
+ 
+ temp = head;
+ if(temp==NULL)
+ {
+     p1->prev=NULL; //
+     head=p1;
+ }
+ else
+ {
+ while(temp->next!=NULL)
+ temp = temp->next;
+ 
+ temp->next = p1;
+ p1->prev=temp; //
+ }
+}
+
+
+void instpf(int a, int k){
+    int m;
+ struct node* p1;                         
+ p1 = (struct node*)malloc(sizeof(struct node)); 
+p1->data= k;   
+
+ p1->next = NULL;
+ p1->prev = NULL;
+ struct node* temp;
+ 
+ temp = head;
+ 
+ if(temp==NULL)
+ {
+     cout<<"Since there is no elements in the list do you want to store element at first position?\nEnter 1 for yes and 0 for no.\n";
+     cin>>m;
+     if(m==1)
+     {
+     head=p1; 
+     return;
+     }
+     else
+     {
+         cout<<"Element wasn't added.\n";
+     }
+ }
+
+ for(int i=1; i<a-1; i++)
+ {
+     temp=temp->next;
+     if(temp->next==NULL)
+     {
+       cout<<"Invalid input\n";
+       cout<<"Element wasn't added.\n";
+       return;
+     }
+     
+ }
+ if(temp==head)
+ {
+     instf(k);
+ }
+ else
+ {
+ p1->next=temp->next;
+ temp->next = p1;
+ p1->prev=temp;
+}
+}
+
+void instpe(int a, int k){
+        int m;
+ struct node* p1;                         
+ p1 = (struct node*)malloc(sizeof(struct node)); 
+p1->data= k;   
+
+ p1->next = NULL;
+ p1->prev = NULL;
+ struct node* temp;
+ 
+ temp = head;
+ 
+ if(temp==NULL)
+ {
+     cout<<"Since there is no elements in the list do you want to store element at first position?\nEnter 1 for yes and 0 for no.\n";
+     cin>>m;
+     if(m==1)
+     {
+     head=p1; 
+     return;
+     }
+     else
+     {
+         cout<<"Element wasn't added.\n";
+     }
+ }
+ 
+while(temp->next!=NULL)
+ temp = temp->next;
+ 
+ for(int i=1; i<a-1; i++)
+ {
+     temp=temp->prev;
+     if(temp->prev==NULL)
+     {
+       cout<<"Invalid input\n";
+       cout<<"Element wasn't added.\n";
+       return;
+     }
+     
+ }
+ if(temp==head)
+  instf(k);
+ 
+ else if(a==1)
+ inste(k);
+ 
+ else
+ {
+  p1->prev=temp->prev;
+  temp->prev->next=p1;
+ temp->prev = p1;
+ p1->next=temp;
+}
+}
+    
+void delf()
+{
+    struct node* p1;
+   if(head==NULL)
+   {
+       cout<<"Sorry can't delete";
+   }
+ else if(head->next==NULL)
+   {
+       p1=head;
+       head->prev=NULL; //
+       head=NULL;
+       free(p1);
+   }
+   else
+   {
+    p1 = head;
+    head = head ->next;
+    free(p1);
+   }
+}
+void dele()
+{
+    struct node* temp;
+    struct node* p1;
+    temp = head;
+     if(head==NULL)
+   {
+       cout<<"Sorry can't delete";
+   }
+ else if(head->next==NULL)
+   {
+       p1=head;
+       head=NULL;
+       free(p1);
+   }
+   else
+   {
+    while(temp->next->next!=NULL)
+    {
+    temp = temp->next;
+    }
+    p1 = temp->next;
+    temp->next=temp->next->prev; //
+    temp->next = NULL; 
+    free(p1);
+   }
+}
+
+void delpf(int a){
+ struct node* p1;                         
+ struct node* temp;
+ struct node* temp1;
+ 
+ temp = head;
+ p1=head;
+ 
+ if(temp==NULL)
+ {
+     cout<<"There is no elements in the list.\n";
+return;
+ }
+
+ for(int i=1; i<a-1; i++)
+ {
+
+     temp=temp->next;
+     if(temp->next==NULL)
+     {
+       cout<<"Invalid input\n";
+       cout<<"Nothing was removed.\n";
+       return;
+     }
+ }
+ if(temp==head)
+ {
+     head=head->next;
+     head->prev=NULL;
+     free(temp);
+ }
+ else
+ {
+ p1=temp;
+ temp=temp->next;
+ if(temp->next==NULL)
+ {
+     p1->next=NULL;
+     free(temp);
+ }
+ else
+ {
+     temp1=temp;
+ temp=temp->next;
+ p1->next=temp;
+ temp->prev=p1;
+ free(temp1);
+ }
+}
+}
+void delpe(int a)
+{
+ struct node* temp;
+ struct node* temp1; 
+ 
+ temp = head;
+ 
+ if(temp==NULL)
+ {
+     cout<<"Since there is no elements in the list nothing is deleted.\n";
+     
+ }
+ 
+while(temp->next!=NULL)
+ temp = temp->next;
+ 
+ for(int i=1; i<a-1; i++)
+ {
+     temp=temp->prev;
+     if(temp->prev==NULL)
+     {
+       cout<<"Invalid input\n";
+       cout<<"Element wasn't deleted.\n";
+       return;
+     }
+     
+ }
+ if(temp==head)
+  delf();
+ 
+ else if(a==1)
+ dele();
+ 
+ else
+ {
+    temp1=temp->prev;
+  temp->prev=temp1->prev;
+  temp1->prev->next=temp;
+  free(temp1);
+}
+}
+ void search(int k)
+ {
+     struct node* temp;
+     int i =1;
+     if(head==NULL)
+     {
+         cout<<"List is empty.";
+     }
+     else
+     {
+     temp=head;
+     
+     while(temp->data!=k)
+     {
+         temp= temp->next;
+         i++;
+         
+         if(temp->next==NULL)
+         break;
+     }
+     if(temp->next==NULL&& temp->data!=k)
+         cout<<"The element does not exist in the list.";
+
+     else
+     cout<<"The element you are searching for is at position "<<i<<".";
+ }
+}
+void disp(){                        
+ struct node* p1;                   
+ p1 = head;                       
+ if(head==NULL){                  
+ cout<<"Linked List is Empty";            
+ }                                  
+ else{                               
+ cout<<"Elements of Linked List are: ";        
+ while(p1 != NULL){                 
+ cout<<p1->prev<<" "<<p1->data<<" "<<p1->next;                  
+ p1= p1->next;                         
+
+ }                                  
+ }                                  
+}                                   
+
+int main(){
+ int flag=1, ch, k, a;
+ while(flag==1){                        
+ cout<<"\nEner the Choice:\n1. Insert at Front\n2. Insert at Position from Front\n3. Insert at Position from end\n4. Insert at End\n5. Delete from Front\n6. Delete the element of a position from front\n7. Delete the element of a position from end\n8. Delete from End\n9. Search an element\n10. Display\n11. Quit\n"; 
+ cin>>ch;                              
+switch(ch){                            
+ case 1: cout<<"\nEnter the element : "; 
+ cin>>k;                                  
+ instf(k);
+ break;
+ case 2:cout<<"\nEnter the position and the element which you want to add: ";
+ cin>>a;
+ cin>>k;
+ instpf(a,k);
+ break;
+ case 3:cout<<"\nEnter the position and the element which you want to add: ";
+ cin>>a;
+ cin>>k;
+ instpe(a,k);
+ break;
+ case 4: cout<<"\nEnter the element: "; 
+ cin>>k;                                  
+ inste(k);
+ break; 
+ case 5:
+ delf();
+ break;
+ case 6:cout<<"\nEnter the position from where you want to delete: ";
+ cin>>a;
+ delpf(a);
+ break;
+ case 7:cout<<"\nEnter the position from where you want to delete: ";
+ cin>>a;
+ delpe(a);
+ break;
+ case 8:
+ dele();
+ break;
+ case 9: cout<<"\nEnter the element you want to search: "; 
+ cin>>k;                                  
+ search(k);
+ break; 
+ case 10: disp();                        
+ break;                                 
+ case 11: flag = 0;                      
+ break;                                 
+ default:                               
+ cout<<"Invalid Choice \n ";            
+ }                                      
+ }                                      
+ return 0;                              
+}

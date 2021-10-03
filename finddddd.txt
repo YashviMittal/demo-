@@ -1,0 +1,2 @@
+while(temp->next->next!=NULL)
+temp->next=NULL;

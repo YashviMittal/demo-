@@ -1,0 +1,76 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+
+struct node{
+ int x;
+ struct node *p;
+};
+struct node *qfront, *qrear;
+
+void inst(int k){
+ node *p1;
+ p1 = new(struct node);
+ p1->x= k;
+ p1->p = NULL;
+ if (qfront==NULL)
+ qfront = p1;
+ else
+ qrear->p = p1;
+ qrear = p1;
+}
+void del(){
+
+ struct node *p1;
+ p1 = qfront;
+ if (qfront == NULL)
+ cout<<"Queue is Empty";
+ else{
+ cout<<" Element Removed : "<< p1->x <<"\n";
+ qfront= qfront->p;
+ free(p1);
+
+ }
+
+}
+void disp(){
+ struct node *p1;
+ p1 = qfront;
+
+ if(qfront==NULL){
+ cout<<"Queue is Empty";
+ }
+ else{
+ cout<<"Elements of Queue ";
+ while(p1 != NULL){
+ cout<<p1->x<<" ";
+ p1= p1->p;
+
+ }
+ }
+}
+
+int main(){
+ int flag=1, ch, k;
+ qfront = NULL;
+ qrear = NULL;
+ while(flag==1){
+ cout<<"\n Enter the Choice:\t 1. Insert \t 2. Delete \t 3. Display \t 4. Quit \t";
+ cin>>ch;
+ switch(ch){
+ case 1: cout<<"\n Enter the element : ";
+ cin>>k;
+ inst(k);
+ break;
+ case 2: del();
+ break;
+ case 3: disp();
+ break;
+ case 4: flag = 0;
+ break;
+ default:
+ cout<<"Invalid Choice \n ";
+ }
+ }
+ return 0;
+}

@@ -1,0 +1,66 @@
+#include <iostream>
+#include<cmath>
+
+using namespace std;
+
+int
+main ()
+{
+  int i = 0, j = 0, l = 0, n = 0, lc = 0, rc = 0,z=1,p = 1;
+  int flag = 1;
+  int a[100];
+
+  cout << "Enter the root:";
+  cin >> a[i];
+
+  while (flag == 1)
+    {
+      cout <<
+	"\nDo you want to go to next level?\nFor yes, enter 1 or else enter 0.\n";
+      cin >> flag;
+      if (flag == 1)
+	{
+	  l++;
+	  n = pow (2, l);
+
+	  cout << "Enter value of " << n << " nodes.";
+	  cout << "\nIf node is empty, then add 0\n";
+
+	  for (j = 0; j < n; j++)
+	    {
+	      i++;
+	      cin >> a[i];
+	    }
+	}
+      else
+	  flag = 0;
+
+    }
+  for (j = 0; j < i; j++)
+    {
+      lc = 2 * j + 1;
+      rc = 2 * j + 2;
+      if (lc < i)
+	{
+	  if (a[j] == 0)
+	    {
+	      a[lc] = a[rc] = 0;
+	    }
+	}
+    }
+    
+    for (j = 0; j <= i; j++)
+    {
+    cout << a[j]<<" ";
+    if(z == p)
+    {
+        
+        cout<<endl;
+        p = p*2;
+        z = 0;
+    }
+    z++;
+    }
+
+}
+
